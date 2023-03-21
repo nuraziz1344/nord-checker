@@ -44,7 +44,7 @@ checker: for (const acc of queue) {
   } catch (error) {
     if (error.output && error.output instanceof Array) {
       const output = error.output.map((v) => (v instanceof Buffer ? v.toString() : String(v))).join("\n");
-      console.error(output)
+      // console.error(output)
       if (/We're having trouble reaching our servers/gi.test(output)) {
         console.error("Got rate-limit, exiting...");
         break checker;
