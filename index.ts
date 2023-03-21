@@ -37,6 +37,7 @@ checker: for (const acc of queue) {
     if ((status = checkRexExp.exec(output))) {
       const expiration = status[1];
       valid.push(`${acc} | Expiration: ${expiration}`);
+      console.log("Found valid account %s | Expiration: %s", acc, expiration)
     }
     accounts.shift();
     execSync("nordvpn logout");
