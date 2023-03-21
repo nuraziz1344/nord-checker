@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node .",
-    "build": "tsc"
+    "build": "tsc",
+    "build:binary": "pkg -t node18-linux dist/index.js -o node-checker"
   },
   "keywords": [],
   "author": "",
