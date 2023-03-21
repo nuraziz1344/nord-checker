@@ -15,8 +15,7 @@ jobs:
       - name: installing
         run: |
           curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && sudo apt-get install -y nodejs
-          sudo wget https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn_3.14.1_amd64.deb -O /tmp/nord.deb -q; sudo apt -y install /tmp/nord.deb > /dev/null
-          # sudo apt install nordvpn -y >/dev/null
+          curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh | sudo sh -
           npm install && npm run build
       - name: run nordvpnd
         run: |
@@ -24,7 +23,7 @@ jobs:
           sudo /usr/sbin/nordvpnd>/dev/null&
       - name: start
         run: sudo npm run start
-      # - name: push
-      #   run: |
-      #     git config --global user.email "git@github.com"; git config --global user.name "github-runner"
-      #     git add .; git commit -m runner-update --allow-empty; git push -f
+      - name: push
+        run: |
+          git config --global user.email "git@github.com"; git config --global user.name "ci/cd"
+          git add .; git commit -m runner-update --allow-empty; git push -f
