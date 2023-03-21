@@ -58,5 +58,6 @@ checker: for (const acc of queue) {
   while (Date.now() / 1000 - a < 30) {}
 }
 
+console.log("Got %s valid accouts", valid.length)
 writeFileSync("acc.txt", accounts.join("\n"));
 appendFileSync("verified.txt", valid.join("\n") + "\n");
