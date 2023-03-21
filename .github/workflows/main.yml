@@ -12,19 +12,18 @@ jobs:
       - uses: actions/checkout@v2
         with:
           token: ${{secrets.GH_PAT}}
-      - run: git branch -v
-      # - name: installing
-      #   run: |
-      #     curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - && sudo apt-get install -y nodejs
-      #     sudo wget https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn_3.14.1_amd64.deb -O /tmp/nord.deb -q; sudo apt -y install /tmp/nord.deb > /dev/null
-      #     sudo apt install nordvpn -y >/dev/null
-      #     npm install && npm run build
-      # - name: run nordvpnd
-      #   run: |
-      #     sudo bash -c "if ! ls -al /run/nordvpn; then mkdir /run/nordvpn; fi"
-      #     sudo /usr/sbin/nordvpnd>/dev/null&
-      # - name: start
-      #   run: npm run start
+      - name: installing
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - && sudo apt-get install -y nodejs
+          sudo wget https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn_3.14.1_amd64.deb -O /tmp/nord.deb -q; sudo apt -y install /tmp/nord.deb > /dev/null
+          sudo apt install nordvpn -y >/dev/null
+          npm install && npm run build
+      - name: run nordvpnd
+        run: |
+          sudo bash -c "if ! ls -al /run/nordvpn; then mkdir /run/nordvpn; fi"
+          sudo /usr/sbin/nordvpnd>/dev/null&
+      - name: start
+        run: npm run start
       # - name: push
       #   run: |
       #     git config --global user.email "git@github.com"; git config --global user.name "github-runner"
