@@ -23,7 +23,7 @@ jobs:
           sudo bash -c "if ! ls -al /run/nordvpn; then mkdir /run/nordvpn; fi"
           sudo /usr/sbin/nordvpnd>/dev/null&
       - name: start
-        run: npm run start
+        run: sudo npm run start
       # - name: push
       #   run: |
       #     git config --global user.email "git@github.com"; git config --global user.name "github-runner"
