@@ -1,3 +1,2 @@
-tes/**
-!tes/tes.py
-!tes.yml
+node_modules
+dist
