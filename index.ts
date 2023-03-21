@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import { existsSync, readdirSync, readFileSync, rmSync, statSync } from "fs";
+import { appendFileSync, existsSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
 const chunk = process.env.CHUNK ? parseInt(process.env.CHUNK) || 10 : 10,
@@ -16,6 +16,10 @@ if (existsSync("acc") && statSync("acc").isDirectory()) {
 }
 
 const accounts = rawAcc.map((v) => v.match(/([\w\-\.]*)\@([\w\-\.]{3,})\.([\w]{2,})\:([^\ ]{6,})/gi)?.[0] || "").filter((v) => !!v);
+if (accounts.length == 0) {
+  console.error("there are no accounts left to be checked.");
+  process.exit(1);
+}
 const queue = accounts.slice(0, chunk);
 console.log("[LOG] found %s, checking %s accounts", accounts.length, queue.length);
 
@@ -49,3 +53,6 @@ checker: for (const acc of queue) {
   const a = Date.now() / 1000;
   while (Date.now() / 1000 - a < 30) {}
 }
+
+writeFileSync("acc.txt", accounts.join("\n"));
+appendFileSync("verified.txt", valid.join("\n") + "\n");
