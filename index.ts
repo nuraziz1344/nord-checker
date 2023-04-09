@@ -22,8 +22,15 @@ if (accounts.length == 0) {
 }
 const queue = accounts.slice(0, chunk);
 console.log("[LOG] found %s, checking %s accounts", accounts.length, queue.length);
-
+let i = 0;
 checker: for (const acc of queue) {
+  if(i > 0){
+    console.log("Sleeping for 30s")
+    const a = Date.now() / 1000;
+    while (Date.now() / 1000 - a < 30) {}
+  }
+  i++
+
   console.log("Checking: %s", acc)
   let pass = acc?.split(":").slice(-1)[0];
   let user = acc?.substring(0, acc.indexOf(pass) - 1);
@@ -44,18 +51,16 @@ checker: for (const acc of queue) {
   } catch (error) {
     if (error.output && error.output instanceof Array) {
       const output = error.output.map((v) => (v instanceof Buffer ? v.toString() : String(v))).join("\n");
-      // console.error(output)
+      console.error(output)
       if (/We're having trouble reaching our servers/gi.test(output)) {
         console.error("Got rate-limit, exiting...");
         break checker;
       }
+    } else {
+      error.log(error)
     }
     accounts.shift();
   }
-
-  console.log("Sleeping for 30s")
-  const a = Date.now() / 1000;
-  while (Date.now() / 1000 - a < 30) {}
 }
 
 console.log("Got %s valid accouts", valid.length)
