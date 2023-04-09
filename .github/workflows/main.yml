@@ -1,13 +1,13 @@
 name: account-check
 on:
   push:
-    branches: [main]
+    branches: [v2]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "( contains(github.event.head_commit.message, 'run') || github.event_name == 'workflow_dispatch')"
+    if: "( contains(github.event.head_commit.message, 'runner-update') || github.event_name == 'workflow_dispatch')"
     steps:
       - uses: actions/checkout@v2
         with:

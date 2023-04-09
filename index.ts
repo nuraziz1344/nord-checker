@@ -68,4 +68,6 @@ checker: for (const acc of queue) {
 
 console.log("Got %s valid accouts", valid.length)
 writeFileSync("acc.txt", accounts.join("\n"));
-appendFileSync("verified.txt", valid.join("\n") + "\n");
+if(valid.length > 0){
+  appendFileSync("verified.txt", valid.join("\n") + "\n");
+}
