@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 import { appendFileSync, existsSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
-const rawAcc = readFileSync("acc.txt", "utf-8").split("\n");
+const rawAcc = existsSync("acc.txt") ? readFileSync("acc.txt", "utf-8").split("\n") : [];
 if (existsSync("acc") && statSync("acc").isDirectory()) {
   readdirSync("acc").forEach((v) => {
     if (v != ".gitkeep") {
@@ -14,21 +14,22 @@ if (existsSync("acc") && statSync("acc").isDirectory()) {
 
 const accounts = rawAcc.map((v) => v.match(/([\w\-\.]*)\@([\w\-\.]{3,})\.([\w]{2,})\:([^\ ]{6,})/gi)?.[0] || "").filter((v) => !!v);
 if (accounts.length == 0) {
-  console.error("there are no accounts left to be checked.");
+  console.error("[ERR] there are no accounts left to be checked.");
   process.exit(1);
 }
-console.log("[LOG] found %s, checking %s accounts", accounts.length);
+
+console.log("[LOG] checking %s accounts", accounts.length);
 let i = 0,
   cooldown = 30;
-checker: while (i < accounts.length) {
+while (i < accounts.length) {
   if (i > 0) {
-    console.log("Sleeping for %ss", cooldown);
+    console.log("[LOG] Sleeping for %ss", cooldown);
     const a = Date.now() / 1000;
     while (Date.now() / 1000 - a < cooldown) {}
   }
 
   const acc = accounts[i];
-  console.log("Checking: %s", acc);
+  console.log("[LOG] Checking: %s", acc);
   let pass = acc?.split(":").slice(-1)[0];
   let user = acc?.substring(0, acc.indexOf(pass) - 1);
 
@@ -40,7 +41,7 @@ checker: while (i < accounts.length) {
     let status;
     if ((status = checkRexExp.exec(output))) {
       const expiration = status[1];
-      console.log("Found valid account %s | Expiration: %s", acc, expiration);
+      console.log("[LOG] Found valid account %s | Expiration: %s", acc, expiration);
       appendFileSync("verified.txt", `${acc} | Expiration: ${expiration}`);
     }
     accounts.shift();
@@ -54,7 +55,7 @@ checker: while (i < accounts.length) {
         .filter((v) => !!v?.trim())
         .join("\n");
       if (/We're having trouble reaching our servers/gi.test(output)) {
-        console.error("Got rate-limit, delaying...");
+        console.error("[ERR] Got rate-limit, delaying...");
         cooldown *= 2;
       } else {
         cooldown = 30;
@@ -66,5 +67,6 @@ checker: while (i < accounts.length) {
     }
     accounts.shift();
   }
+  console.log("[LOG] %s account left...", accounts.length);
   writeFileSync("acc.txt", accounts.join("\n"));
 }
