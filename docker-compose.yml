@@ -4,6 +4,6 @@ services:
     build: .
     image: nord-checker
     volumes: 
-      - ./acc:/checker/acc
-      - ./acc.txt:/checker/acc.txt
-      - ./verified.txt:/checker/verified.txt
+      - './acc:/checker/acc'
+      - './acc.txt:/checker/acc.txt'
+      - './verified.txt:/checker/verified.txt'
