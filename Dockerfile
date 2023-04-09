@@ -10,4 +10,4 @@ RUN apt -y install /tmp/nord.deb >/dev/null && rm -rf /tmp/nord.deb
 
 RUN chmod a+x nord-checker start.sh
 
-CMD ['/usr/bin/sh', 'start.sh']
+CMD ["/usr/bin/sh", "start.sh"]
