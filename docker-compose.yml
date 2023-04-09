@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  checker: 
+    build: .
+    image: nord-checker
+    volumes: 
+      - ./acc:/checker/acc
+      - ./acc.txt:/checker/acc.txt
+      - ./verified.txt:/checker/verified.txt
