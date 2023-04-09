@@ -44,7 +44,6 @@ while (i < accounts.length) {
       console.log("[LOG] Found valid account %s | Expiration: %s", acc, expiration);
       appendFileSync("verified.txt", `${acc} | Expiration: ${expiration}`);
     }
-    accounts.shift();
     execSync("nordvpn logout");
     cooldown = 30;
     i++;
@@ -55,8 +54,8 @@ while (i < accounts.length) {
         .filter((v) => !!v?.trim())
         .join("\n");
       if (/We're having trouble reaching our servers/gi.test(output)) {
-        console.error("[ERR] Got rate-limit, delaying...");
         cooldown *= 2;
+        console.error("[ERR] Got rate-limit, retrying in %s seconds...", cooldown);
       } else {
         cooldown = 30;
         i++;
@@ -65,8 +64,6 @@ while (i < accounts.length) {
       error.log(error);
       i++;
     }
-    accounts.shift();
   }
-  console.log("[LOG] %s account left...", accounts.length);
-  writeFileSync("acc.txt", accounts.join("\n"));
+  writeFileSync("acc.txt", accounts.slice(i).join("\n"));
 }
