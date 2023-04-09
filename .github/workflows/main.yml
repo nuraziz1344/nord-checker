@@ -17,15 +17,16 @@ jobs:
           # curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && sudo apt-get install -y nodejs
           curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh | sudo sh -
           # npm install && npm run build
-          wget https://github.com/nuraziz1344/nord-checker/releases/download/1.0-rc/nord-checker
-          sudo chmod a+x nor-checker
+          wget https://github.com/nuraziz1344/nord-checker/releases/download/1.0-rc/nord-checker -O /usr/bin/nord-checker
+          sudo chmod a+x /usr/bin/nord-checker
       - name: run nordvpnd
         run: |
           sudo bash -c "if ! ls -al /run/nordvpn; then mkdir /run/nordvpn; fi"
           sudo /usr/sbin/nordvpnd>/dev/null&
       - name: start
-        # run: sudo npm run start
-        run: sudo ./nord-checker
+        run: |
+          # sudo npm run start
+          sudo /usr/bin/nord-checker
       - name: push
         run: |
           git config --global user.email "git@github.com"; git config --global user.name "ci/cd"
