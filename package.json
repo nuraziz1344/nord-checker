@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "build": "tsc",
-    "build:binary": "pkg -t node18-linux dist/index.js -o node-checker"
+    "build:binary": "tsc && pkg -t node18-linux dist/index.js -o nord-checker"
   },
   "keywords": [],
   "author": "",
