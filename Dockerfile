@@ -1,4 +1,4 @@
-FROM alpine
+FROM ubuntu
 WORKDIR /checker
 COPY ./nord-checker /checker/nord-checker
 
