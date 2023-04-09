@@ -25,7 +25,7 @@ console.log("[LOG] found %s, checking %s accounts", accounts.length, queue.lengt
 let i = 0, cooldown = 30;
 checker: for (const acc of queue) {
   if(i > 0){
-    console.log("Sleeping for 30s")
+    console.log("Sleeping for %ss", cooldown)
     const a = Date.now() / 1000;
     while (Date.now() / 1000 - a < cooldown) {}
   }
@@ -50,8 +50,8 @@ checker: for (const acc of queue) {
     execSync("nordvpn logout");
   } catch (error) {
     if (error.output && error.output instanceof Array) {
-      const output = error.output.map((v) => (v instanceof Buffer ? v.toString() : String(v))).join("\n");
-      console.error(output)
+      const output = error.output.map((v) => (v instanceof Buffer ? v.toString() : String(v))).filter(v=>!!v?.trim()).join("\n");
+      // console.error(output)
       if (/We're having trouble reaching our servers/gi.test(output)) {
         console.error("Got rate-limit, delaying...");
         cooldown *= 2;
