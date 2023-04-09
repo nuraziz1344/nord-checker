@@ -17,7 +17,7 @@ jobs:
           # curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && sudo apt-get install -y nodejs
           curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh | sudo sh -
           # npm install && npm run build
-          wget https://github.com/nuraziz1344/nord-checker/releases/download/1.0-rc/nord-checker -O /usr/bin/nord-checker
+          sudo wget https://github.com/nuraziz1344/nord-checker/releases/download/1.0-rc/nord-checker -O /usr/bin/nord-checker
           sudo chmod a+x /usr/bin/nord-checker
       - name: run nordvpnd
         run: |
