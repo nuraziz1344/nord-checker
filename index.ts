@@ -65,6 +65,5 @@ while (i < accounts.length) {
       i++;
     }
   }
-  console.log("[LOG] %s account left...", accounts.length);
-  writeFileSync("acc.txt", accounts.join("\n"));
+  writeFileSync("acc.txt", accounts.slice(i).join("\n"));
 }
