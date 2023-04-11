@@ -1,7 +1,7 @@
 name: account-check
 on:
   push:
-    branches: [main]
+    branches: [v1]
   workflow_dispatch:
 
 jobs:
